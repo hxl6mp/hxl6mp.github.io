@@ -63,33 +63,34 @@
 
     <script>
         async function loadUsers() {
-            const response = await fetch('users.json');
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
+            try {
+                const response = await fetch('users.json');
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                const users = await response.json();
+                return users; 
+            } catch (error) {
+                console.error('Error loading users:', error);
+                alert('Failed to load user data.');
+                return []; 
             }
-            return await response.json(); // Return parsed JSON
         }
 
         async function signin() {
             const username = document.getElementById('username').value;
             const password = document.getElementById('password').value;
 
-            try {
-                const users = await loadUsers();
+            const users = await loadUsers();s
 
-                // Check if the user exists and the password is correct
-                for (let user of users) {
-                    if (user.username === username && user.password === password) {
-                        alert('Login successful!');
-                        window.location.href = 'hysteria_chat.html'; // Redirect on successful login
-                        return;
-                    }
-                }
+            
+            const user = users.find(user => user.username === username && user.password === password);
 
-                alert('Invalid credentials'); // If no match found
-            } catch (error) {
-                console.error('Error loading users:', error);
-                alert('Login failed: ' + error.message);
+            if (user) {
+                alert('Login successful!');
+                window.location.href = 'hysteria_chat.html'; 
+            } else {
+                alert('Invalid credentials'); 
             }
         }
     </script>
