@@ -61,34 +61,32 @@
         <button class="btn" onclick="signin()">Log In</button>
     </div>
 
-    <script src="https://unpkg.com/faunadb@3.0.0/dist/faunadb.min.js"></script>
     <script>
-        const faunadb = window.faunadb;
-        const q = faunadb.query;
-
-        const client = new faunadb.Client({
-            secret: 'fnacapi_omd2ZXJzaW9uAWdwYXlsb2FkWFiiYmlkcjQxMjcyOTI0NjI4ODQ0NjAyNmZzZWNyZXR4OHVLWUtxQ1p2a3c2eTJ3bC9YRjNtY2FRTmpVa0lnZEJWKy8vaVNVTU01NldTMUxUdXk4ZVB3Zz09' 
-        });
+        async function loadUsers() {
+            const response = await fetch('users.json');
+            const users = await response.json();
+            return users;
+        }
 
         async function signin() {
             const username = document.getElementById('username').value;
             const password = document.getElementById('password').value;
 
             try {
-                const response = await client.query(
-                    q.Get(q.Match(q.Index('users_by_username'), username))
-                );
+                const users = await loadUsers();
 
-                if (response.data.password === password) {
-                    console.log('Login successful:', response);
+                // Check if the user exists and the password is correct
+                const user = users.find(user => user.username === username && user.password === password);
+
+                if (user) {
                     alert('Login successful!');
-                    
+                    // Redirect to another page upon successful login
                     window.location.href = 'hysteria_chat.html';
                 } else {
                     alert('Invalid credentials');
                 }
             } catch (error) {
-                console.error('Error logging in:', error);
+                console.error('Error loading users:', error);
                 alert('Login failed: ' + error.message);
             }
         }
