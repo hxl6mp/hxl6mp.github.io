@@ -71,40 +71,54 @@
     <div class="signup-box">
         <img src="moon.png" alt="Moon" class="moon">
         <div class="form-group">
-            <input class="form-control" id="username" placeholder="Username" type="text" required>
+            <input class="form-control" id="new-username" placeholder="Username" type="text">
         </div>
         <div class="form-group">
-            <input class="form-control" id="password" placeholder="Password" type="password" required>
+            <input class="form-control" id="new-password" placeholder="Password" type="password">
         </div>
         <div class="form-group">
-            <input class="form-control" id="invitationCode" placeholder="Invitation Code" type="text" required>
+            <input class="form-control" id="invite-code" placeholder="Invitation Code" type="text">
         </div>
         <div class="form-group">
-            <button id="signup-btn" class="btn" onclick="signup()">Sign Up</button>
+            <button id="signup-btn" class="btn" onclick="signUp()">Sign Up</button>
         </div>
     </div>
 
     <script>
-        function signup() {
-            const username = document.getElementById('username').value;
-            const password = document.getElementById('password').value;
-            const invitationCode = document.getElementById('invitationCode').value;
+        async function fetchUsers() {
+            try {
+                const response = await fetch('https://hxl6mp.github.io/users.json');
+                const data = await response.json();
+                return data.users;
+            } catch (error) {
+                console.error("Error fetching user data:", error);
+                alert("Unable to fetch user data. Please try again later.");
+                return [];
+            }
+        }
 
-            
-            if (invitationCode !== 'HXL-ADMIN-TEST, 11991231, 8811341, m193841, 0913841') {
-                alert('Invalid invitation code!');
+        async function signUp() {
+            const username = document.getElementById('new-username').value;
+            const password = document.getElementById('new-password').value;
+            const inviteCode = document.getElementById('invite-code').value;
+
+            if (inviteCode !== "HXL-ROOT-TEST") {
+                alert("Invalid invitation code!");
                 return;
             }
 
-           
-            const userData = {
-                username: username,
-                password: password,
-            };
-            localStorage.setItem(username, JSON.stringify(userData));
+            const users = await fetchUsers();
+            const userExists = users.some(user => user.username === username);
 
-            alert('Sign up successful! You can now log in.');
-            window.location.href = 'https://hxl6mp.github.io/signin.html'; 
+            if (userExists) {
+                alert("Username already taken! Please choose a different one.");
+            } else {
+                n
+                alert("Signed up successfully! You can now log in.");
+
+               
+                window.location.href = 'signin.html';
+            }
         }
     </script>
 </body>
