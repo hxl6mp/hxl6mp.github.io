@@ -27,6 +27,11 @@
             text-align: center;
         }
 
+        .form-group {
+            margin-bottom: 15px;
+            width: 100%;
+        }
+
         .form-control {
             width: 100%;
             padding: 10px;
@@ -35,6 +40,10 @@
             background-color: #2a2a2a;
             color: #fff;
             box-sizing: border-box;
+        }
+
+        .form-control::placeholder {
+            color: #aaa;
         }
 
         .btn {
@@ -56,45 +65,19 @@
 <body>
     <div class="signup-box">
         <h2>Sign Up</h2>
-        <input class="form-control" id="username" placeholder="Username" type="text">
-        <input class="form-control" id="password" placeholder="Password" type="password">
-        <input class="form-control" id="invitation-code" placeholder="Invitation Code" type="text" value="HXL-ROOT-TEST" readonly>
-        <button class="btn" onclick="signup()">Sign Up</button>
+        <div class="form-group">
+            <input class="form-control" id="username" placeholder="Username" type="text">
+        </div>
+        <div class="form-group">
+            <input class="form-control" id="password" placeholder="Password" type="password">
+        </div>
+        <div class="form-group">
+            <input class="form-control" id="invitationCode" placeholder="Invitation Code" type="text">
+        </div>
+        <div class="form-group">
+            <button id="signup-btn" class="btn" onclick="signUp()">Sign Up</button>
+        </div>
     </div>
-
-    <script src="https://unpkg.com/faunadb@3.0.0/dist/faunadb.min.js"></script>
-    <script>
-        const faunadb = window.faunadb;
-        const q = faunadb.query;
-
-        const client = new faunadb.Client({
-            secret: 'fnacapi_omd2ZXJzaW9uAWdwYXlsb2FkWFiiYmlkcjQxMjcyOTI0NjI4ODQ0NjAyNmZzZWNyZXR4OHVLWUtxQ1p2a3c2eTJ3bC9YRjNtY2FRTmpVa0lnZEJWKy8vaVNVTU01NldTMUxUdXk4ZVB3Zz09' 
-        });
-
-        async function signup() {
-            const username = document.getElementById('username').value;
-            const password = document.getElementById('password').value;
-            const invitationCode = document.getElementById('invitation-code').value;
-
-            try {
-                const response = await client.query(
-                    q.Create(q.Collection('users'), {
-                        data: {
-                            username: username,
-                            password: password,
-                            invitationCode: invitationCode
-                        }
-                    })
-                );
-                console.log('User created:', response);
-                alert('Sign up successful!');
-                
-                window.location.href = 'signin.html';
-            } catch (error) {
-                console.error('Error creating user:', error);
-                alert('Failed to create user: ' + error.message);
-            }
-        }
-    </script>
+    <script src="signup.js"></script>
 </body>
 </html>
