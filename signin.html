@@ -63,7 +63,7 @@
 
     <script src="https://unpkg.com/faunadb@3.0.0/dist/faunadb.min.js"></script>
     <script>
-        const faunadb = require('faunadb');
+        const faunadb = window.faunadb;
         const q = faunadb.query;
 
         const client = new faunadb.Client({
@@ -82,7 +82,7 @@
                 if (response.data.password === password) {
                     console.log('Login successful:', response);
                     alert('Login successful!');
-                   
+                    
                     window.location.href = 'hysteria_chat.html';
                 } else {
                     alert('Invalid credentials');
