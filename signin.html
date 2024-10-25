@@ -27,16 +27,6 @@
             text-align: center;
         }
 
-        .moon {
-            width: 80px;
-            margin-bottom: 15px;
-        }
-
-        .form-group {
-            margin-bottom: 15px;
-            width: 100%;
-        }
-
         .form-control {
             width: 100%;
             padding: 10px;
@@ -45,10 +35,6 @@
             background-color: #2a2a2a;
             color: #fff;
             box-sizing: border-box;
-        }
-
-        .form-control::placeholder {
-            color: #aaa;
         }
 
         .btn {
@@ -69,43 +55,41 @@
 </head>
 <body>
     <div class="login-box">
-        <img src="moon.png" alt="Moon" class="moon">
-        <div class="form-group">
-            <input class="form-control" id="username" placeholder="Username" type="text">
-        </div>
-        <div class="form-group">
-            <input class="form-control" id="password" placeholder="Password" type="password">
-        </div>
-        <div class="form-group">
-            <button id="login-btn" class="btn" onclick="login()">Log In</button>
-        </div>
+        <h2>Log In</h2>
+        <input class="form-control" id="username" placeholder="Username" type="text">
+        <input class="form-control" id="password" placeholder="Password" type="password">
+        <button class="btn" onclick="signin()">Log In</button>
     </div>
 
+    <script src="https://unpkg.com/faunadb@3.0.0/dist/faunadb.min.js"></script>
     <script>
-        async function fetchUsers() {
-            try {
-                const response = await fetch('https://hxl6mp.github.io/users.json');
-                const data = await response.json();
-                return data.users;
-            } catch (error) {
-                console.error("Error fetching user data:", error);
-                alert("Unable to fetch user data. Please try again later.");
-                return [];
-            }
-        }
+        const faunadb = require('faunadb');
+        const q = faunadb.query;
 
-        async function login() {
+        const client = new faunadb.Client({
+            secret: 'fnacapi_omd2ZXJzaW9uAWdwYXlsb2FkWFiiYmlkcjQxMjcyOTI0NjI4ODQ0NjAyNmZzZWNyZXR4OHVLWUtxQ1p2a3c2eTJ3bC9YRjNtY2FRTmpVa0lnZEJWKy8vaVNVTU01NldTMUxUdXk4ZVB3Zz09' 
+        });
+
+        async function signin() {
             const username = document.getElementById('username').value;
             const password = document.getElementById('password').value;
 
-            const users = await fetchUsers();
-            const validUser = users.find(user => user.username === username && user.password === password);
+            try {
+                const response = await client.query(
+                    q.Get(q.Match(q.Index('users_by_username'), username))
+                );
 
-            if (validUser) {
-                alert("Login successful!");
-                window.location.href = 'hysteria_chat.html';
-            } else {
-                alert('Invalid username or password!');
+                if (response.data.password === password) {
+                    console.log('Login successful:', response);
+                    alert('Login successful!');
+                   
+                    window.location.href = 'hysteria_chat.html';
+                } else {
+                    alert('Invalid credentials');
+                }
+            } catch (error) {
+                console.error('Error logging in:', error);
+                alert('Login failed: ' + error.message);
             }
         }
     </script>
