@@ -6,9 +6,14 @@
     {
         "username": "Raven",
         "password": "RavenRoot"
-         },
+        
+    },
         {
             "username": "csbmt",
             "password": "csbmt"
+             },
+        {
+            "username": "Exo",
+            "password": "Mexican24"
     }
 ]
