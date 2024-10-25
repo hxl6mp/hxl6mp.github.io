@@ -79,7 +79,6 @@
         <div class="form-group">
             <button id="login-btn" class="btn" onclick="login()">Log In</button>
         </div>
-        <p class="text-muted" style="font-size: 10px;">User: admin | Pass: root</p>
     </div>
 
     <script>
@@ -100,9 +99,10 @@
             const password = document.getElementById('password').value;
 
             const users = await fetchUsers();
-            const userExists = users.find(user => user.username === username && user.password === password);
+            const validUser = users.find(user => user.username === username && user.password === password);
 
-            if (userExists) {
+            if (validUser) {
+                alert("Login successful!");
                 window.location.href = 'hysteria_chat.html';
             } else {
                 alert('Invalid username or password!');
