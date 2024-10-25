@@ -1,0 +1,14 @@
+{
+  "users": [
+    {
+      "username": "admin",
+      "password": "root",
+      "inviteCode": "HXL-ROOT-TEST"
+    },
+    {
+      "username": "testuser",
+      "password": "testpass",
+      "inviteCode": "HXL-USER-TEST"
+    }
+  ]
+}
