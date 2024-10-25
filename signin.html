@@ -73,7 +73,7 @@
             } catch (error) {
                 console.error('Error loading users:', error);
                 alert('Failed to load user data.');
-                return []; 
+                return [];
             }
         }
 
@@ -81,7 +81,7 @@
             const username = document.getElementById('username').value;
             const password = document.getElementById('password').value;
 
-            const users = await loadUsers();s
+            const users = await loadUsers();
 
             
             const user = users.find(user => user.username === username && user.password === password);
@@ -93,6 +93,12 @@
                 alert('Invalid credentials'); 
             }
         }
+
+        
+        document.querySelector('.btn').addEventListener('click', (event) => {
+            event.preventDefault(); 
+            signin(); 
+        });
     </script>
 </body>
 </html>
