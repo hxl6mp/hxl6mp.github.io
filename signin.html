@@ -88,13 +88,14 @@
             const username = document.getElementById('username').value;
             const password = document.getElementById('password').value;
 
-            s
+            
             if (username === 'admin' && password === 'root') {
-                window.location.href = 'hysteria_chat.html';
+                alert('Welcome, Admin! Redirecting to the chat room...');
+                window.location.href = 'hysteria_chat.html'; 
                 return;
             }
 
-           
+            
             const userData = JSON.parse(localStorage.getItem(username));
             if (userData && userData.password === password) {
                 alert('Login successful! Welcome back, ' + username + '!');
