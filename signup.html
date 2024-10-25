@@ -7,53 +7,52 @@
     <link rel="stylesheet" href="styles.css">
     <style>
         body {
-            background-color: #000; 
+            background-color: #000;
             color: #fff;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
-            margin: 0;
             font-family: 'Courier New', Courier, monospace;
         }
 
         .login-box {
-            background-color: #1e1e1e; 
+            background-color: #1e1e1e;
             border-radius: 10px;
             padding: 20px;
-            width: 90%; 
-            max-width: 400px; 
+            width: 90%;
+            max-width: 400px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-            text-align: center; 
+            text-align: center;
         }
 
         .moon {
-            width: 80px; 
-            margin-bottom: 15px; 
+            width: 80px;
+            margin-bottom: 15px;
         }
 
         .form-group {
             margin-bottom: 15px;
-            width: 100%; 
+            width: 100%;
         }
 
         .form-control {
             width: 100%;
             padding: 10px;
-            border: 1px solid #6b6bff; 
+            border: 1px solid #6b6bff;
             border-radius: 5px;
-            background-color: #2a2a2a; 
-            color: #fff; 
-            box-sizing: border-box; 
+            background-color: #2a2a2a;
+            color: #fff;
+            box-sizing: border-box;
         }
 
         .form-control::placeholder {
-            color: #aaa; 
+            color: #aaa;
         }
 
         .btn {
-            background-color: #6b6bff; 
-            color: #fff; 
+            background-color: #6b6bff;
+            color: #fff;
             border: none;
             padding: 10px;
             border-radius: 5px;
@@ -63,44 +62,51 @@
         }
 
         .btn:hover {
-            background-color: #4b4bff; 
-        }
-
-        .text-muted {
-            font-size: 10px;
-            text-align: center;
-            margin-top: 10px;
-        }
-
-        .text-muted a {
-            color: #6b6bff; 
-            text-decoration: none;
-        }
-
-        .text-muted a:hover {
-            text-decoration: underline; 
+            background-color: #4b4bff;
         }
     </style>
 </head>
 <body>
     <div class="login-box">
-        <img src="moon.png" alt="Moon" class="moon"> 
+        <h2>Sign Up</h2>
+        <img src="moon.png" alt="Moon" class="moon">
         <div class="form-group">
-            <input class="form-control" id="username" placeholder="Username" type="text">
+            <input class="form-control" id="username" placeholder="Username" type="text" required>
         </div>
         <div class="form-group">
-            <input class="form-control" id="email" placeholder="Email" type="email">
+            <input class="form-control" id="email" placeholder="Email" type="email" required>
         </div>
         <div class="form-group">
-            <input class="form-control" id="password" placeholder="Password" type="password">
+            <input class="form-control" id="password" placeholder="Password" type="password" required>
         </div>
         <div class="form-group">
-            <input class="form-control" id="invite" placeholder="Invitation Code" type="text">
+            <input class="form-control" id="invite" placeholder="Invitation Code" type="text" required>
         </div>
-        <div class="form-group">
-            <button id="login-btn" class="btn btn-primary"><i class="fas fa-key mr-2"></i> Get started</button>
-        </div>
-        <div class="text-muted">By signing up for HxlWare, you are agreeing to our rules and policies. </a>.</div>
+        <button id="signup-btn" class="btn" onclick="signUp()">Sign Up</button>
     </div>
+
+    <script>
+        const validInviteCode = 'HXL-ROOT-TEST';
+
+        function signUp() {
+            const username = document.getElementById('username').value;
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const inviteCode = document.getElementById('invite').value;
+
+            
+            if (inviteCode !== validInviteCode) {
+                alert('Invalid invitation code!');
+                return;
+            }
+
+            
+            const userData = { username, email, password };
+            localStorage.setItem(username, JSON.stringify(userData)); 
+
+            alert('Signup successful! Welcome, ' + username + '!');
+            window.location.href = 'signin.html'; 
+        }
+    </script>
 </body>
-</html
+</html>
