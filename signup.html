@@ -71,13 +71,13 @@
     <div class="signup-box">
         <img src="moon.png" alt="Moon" class="moon">
         <div class="form-group">
-            <input class="form-control" id="username" placeholder="Username" type="text" required>
+            <input class="form-control" id="username" placeholder="Username" type="text">
         </div>
         <div class="form-group">
-            <input class="form-control" id="password" placeholder="Password" type="password" required>
+            <input class="form-control" id="password" placeholder="Password" type="password">
         </div>
         <div class="form-group">
-            <input class="form-control" id="invite-code" placeholder="Invitation Code" type="text" required>
+            <input class="form-control" id="invitationCode" placeholder="Invitation Code" type="text">
         </div>
         <div class="form-group">
             <button id="signup-btn" class="btn" onclick="signup()">Sign Up</button>
@@ -85,20 +85,18 @@
     </div>
 
     <script>
-        const validInviteCodes = ["HXL-ROOT-TEST, HXL-TEST"]; 
-
         function signup() {
             const username = document.getElementById('username').value;
             const password = document.getElementById('password').value;
-            const inviteCode = document.getElementById('invite-code').value;
+            const invitationCode = document.getElementById('invitationCode').value;
 
-            // Check for a valid invitation code
-            if (!validInviteCodes.includes(inviteCode)) {
+            // Check for valid invitation code
+            if (invitationCode !== 'HXL-ROOT-TEST') {
                 alert('Invalid invitation code!');
                 return;
             }
 
-            
+            // Store user data in localStorage
             const userData = {
                 username: username,
                 password: password,
@@ -106,7 +104,7 @@
             localStorage.setItem(username, JSON.stringify(userData));
 
             alert('Sign up successful! You can now log in.');
-            window.location.href = `${window.location.origin}/signin.html`; 
+            window.location.href = 'https://hxl6mp.github.io/signin.html'; // Redirect to sign in page
         }
     </script>
 </body>
