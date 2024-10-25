@@ -64,8 +64,10 @@
     <script>
         async function loadUsers() {
             const response = await fetch('users.json');
-            const users = await response.json();
-            return users;
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return await response.json(); // Return parsed JSON
         }
 
         async function signin() {
@@ -76,15 +78,15 @@
                 const users = await loadUsers();
 
                 // Check if the user exists and the password is correct
-                const user = users.find(user => user.username === username && user.password === password);
-
-                if (user) {
-                    alert('Login successful!');
-                    // Redirect to another page upon successful login
-                    window.location.href = 'hysteria_chat.html';
-                } else {
-                    alert('Invalid credentials');
+                for (let user of users) {
+                    if (user.username === username && user.password === password) {
+                        alert('Login successful!');
+                        window.location.href = 'hysteria_chat.html'; // Redirect on successful login
+                        return;
+                    }
                 }
+
+                alert('Invalid credentials'); // If no match found
             } catch (error) {
                 console.error('Error loading users:', error);
                 alert('Login failed: ' + error.message);
